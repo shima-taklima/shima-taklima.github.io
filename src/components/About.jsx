@@ -63,7 +63,7 @@ export default function About() {
 
             <div className="flex flex-wrap items-center gap-4">
               <a
-                href="shima_履歴書.pdf"
+                href="/resume-shima.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"

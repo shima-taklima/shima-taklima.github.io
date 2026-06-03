@@ -1,263 +1,320 @@
-# 🚀 Frontend Portfolio — Setup & Deployment Guide
-
-## Project Stack
-
-- **React 18** — UI framework
-- **Vite** — Build tool (fast HMR, optimized production builds)
-- **Tailwind CSS v3** — Utility-first styling
-- **gh-pages** — One-command GitHub Pages deployment
+# 🚀 Deployment Guide
+### Shima Taklima — Portfolio Site
+**Live URL:** https://shima-taklima.github.io
 
 ---
 
-## 📦 Step 1 — Prerequisites
+## 📁 Branch Structure
 
-Make sure you have the following installed:
+| Branch | Purpose | How it's updated |
+|--------|---------|-----------------|
+| `source` | Your source code (`src/`, `package.json`, etc.) | `git push origin source` |
+| `main` | Built files served by GitHub Pages | `npm run deploy` (automatic) |
 
-```bash
-node --version   # v18 or higher required
-npm --version    # v9 or higher
-git --version    # any recent version
-```
-
-If Node.js is not installed, download it from https://nodejs.org
+> ⚠️ **Never manually edit or push to `main`** — it is fully managed by `npm run deploy`.
 
 ---
 
-## 📁 Step 2 — Install Dependencies
-
-Navigate into the project folder and install all packages:
+## 🖥️ Local Development
 
 ```bash
-cd portfolio
+# 1. Make sure you're on the source branch
+git checkout source
+
+# 2. Install dependencies (first time only, or after pulling new changes)
 npm install
-```
 
----
-
-## 🧑‍💻 Step 3 — Run Locally
-
-Start the development server with hot-reload:
-
-```bash
+# 3. Start local dev server
 npm run dev
 ```
 
 Open your browser at **http://localhost:5173**
 
-You'll see the full portfolio with:
-
-- Animated hero with typewriter effect
-- Scrolling skills bars
-- Interactive project list
-- Timeline experience section
-- Working contact form UI
-- Custom cursor
+Hot reload is enabled — changes in `src/` appear instantly without refreshing.
 
 ---
 
-## ✏️ Step 4 — Personalize the Content
+## ✏️ Making Changes & Deploying
 
-Edit these files to make the portfolio yours:
+Every time you update the portfolio, follow these **4 steps in order**:
 
-| File                            | What to change                      |
-| ------------------------------- | ----------------------------------- |
-| `src/components/Hero.jsx`       | Your name, description, CTA buttons |
-| `src/components/About.jsx`      | Bio, stats, social links            |
-| `src/components/Skills.jsx`     | Your skill names and percentages    |
-| `src/components/Projects.jsx`   | Project titles, descriptions, links |
-| `src/components/Experience.jsx` | Companies, roles, dates             |
-| `src/components/Contact.jsx`    | Email, LinkedIn, GitHub links       |
-| `src/components/Footer.jsx`     | Your name, socials                  |
-| `index.html`                    | Page `<title>` and meta description |
-| `vite.config.js`                | `base: '/your-repo-name/'`          |
-
-### 📧 Setting up the Contact Form
-
-The contact form currently simulates submission. To make it work for real, choose one:
-
-**Option A — Formspree (easiest, free):**
-
-```jsx
-// In Contact.jsx, replace the handleSubmit function:
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setStatus('sending');
-  const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(form),
-  });
-  setStatus(res.ok ? 'sent' : 'error');
-};
+### Step 1 — Check you're on source branch
+```bash
+git branch
+```
+You should see:
+```
+* source   ← must show this
+  main
+```
+If you're on `main`, switch back:
+```bash
+git checkout source
 ```
 
-Sign up at https://formspree.io, create a form, and paste your form ID.
+### Step 2 — Make your code changes
+Edit files inside `src/` as needed. Test locally with `npm run dev` first.
 
-**Option B — EmailJS (no backend):**
-Install: `npm install @emailjs/browser` and follow their React guide at https://emailjs.com
-
----
-
-## 🐙 Step 5 — Create a GitHub Repository
-
-1. Go to https://github.com/new
-2. Create a new repository (e.g. **portfolio**)
-3. Make it **Public** (required for free GitHub Pages)
-4. Don't initialize with README (you'll push your code)
-
+### Step 3 — Save source code to GitHub
 ```bash
-# Inside your project folder:
-git init
 git add .
-git commit -m "feat: initial portfolio commit"
-git remote add origin https://github.com/YOUR_USERNAME/portfolio.git
-git branch -M main
-git push -u origin main
+git commit -m "describe what you changed"
+git push origin source
 ```
 
----
-
-## ⚙️ Step 6 — Update vite.config.js
-
-Open `vite.config.js` and set `base` to your exact repository name:
-
-```js
-// vite.config.js
-export default defineConfig({
-  plugins: [react()],
-  base: '/portfolio/', // ← change 'portfolio' to YOUR repo name
-});
-```
-
-> ⚠️ This is critical. If your repo is named `my-portfolio`, set `base: '/my-portfolio/'`.
-
----
-
-## 🌍 Step 7 — Deploy to GitHub Pages
-
-Run the deploy command:
-
+### Step 4 — Build and publish live site
 ```bash
 npm run deploy
 ```
 
-This will:
+You should see:
+```
+> npm run build
+✓ built in ~500ms
 
-1. Run `npm run build` (creates optimized files in `/dist`)
-2. Push the `/dist` folder to a `gh-pages` branch on GitHub
+Published
+```
+
+Wait **1–2 minutes** then visit https://shima-taklima.github.io to confirm.
 
 ---
 
-## 🔧 Step 8 — Configure GitHub Pages
-
-1. Go to your GitHub repository
-2. Click **Settings** → **Pages** (in the left sidebar)
-3. Under **Source**, select **Deploy from a branch**
-4. Set branch to **gh-pages** and folder to **/ (root)**
-5. Click **Save**
-
-Wait ~60–90 seconds, then visit:
+## 🔍 What `npm run deploy` Does Internally
 
 ```
-https://YOUR_USERNAME.github.io/portfolio/
-```
-
-🎉 Your portfolio is live!
-
----
-
-## 🔁 Updating Your Portfolio Later
-
-Whenever you make changes:
-
-```bash
-# 1. Make your edits to any component
-# 2. Test locally
-npm run dev
-
-# 3. Deploy the update
 npm run deploy
+      │
+      ├─ 1. npm run build
+      │       └─ Vite compiles src/ → dist/
+      │           ├─ dist/index.html
+      │           └─ dist/assets/
+      │               ├─ index-xxxxx.js   (all JS minified)
+      │               └─ index-xxxxx.css  (all CSS minified)
+      │
+      └─ 2. Pushes dist/ contents → main branch on GitHub
+                  └─ GitHub Pages detects push → serves live site
 ```
 
-GitHub Pages will update within ~60 seconds.
+Your **source code** stays on `source` branch.  
+The **built files** go to `main` branch.  
+GitHub Pages serves `main` to visitors.
 
 ---
 
-## 🗂 Project Structure
+## 📋 Quick Reference Card
 
 ```
-portfolio/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   ├── Cursor.jsx       # Custom mouse cursor
-│   │   ├── Navbar.jsx       # Sticky navigation
-│   │   ├── Hero.jsx         # Hero with typewriter
-│   │   ├── Marquee.jsx      # Skills ticker
-│   │   ├── About.jsx        # About section
-│   │   ├── Skills.jsx       # Animated skill bars
-│   │   ├── Projects.jsx     # Project list
-│   │   ├── Experience.jsx   # Timeline
-│   │   ├── Contact.jsx      # Contact form
-│   │   └── Footer.jsx       # Footer
-│   ├── App.jsx              # Root with scroll animations
-│   ├── main.jsx             # Entry point
-│   └── index.css            # Tailwind + global styles
-├── index.html
-├── vite.config.js           # ← set your base here
-├── tailwind.config.js
-├── postcss.config.js
-└── package.json
+┌─────────────────────────────────────────────┐
+│           EVERY TIME YOU MAKE CHANGES        │
+├─────────────────────────────────────────────┤
+│                                             │
+│  git checkout source      ← check branch   │
+│  (make your edits)        ← edit src/      │
+│  git add .                                  │
+│  git commit -m "message"  ← save code      │
+│  git push origin source   ← backup code    │
+│  npm run deploy           ← publish site   │
+│                                             │
+│  Wait ~1 min → shima-taklima.github.io     │
+└─────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🎨 Customizing the Design
+## 🌐 Multi-language Content (i18n)
 
-### Colors (tailwind.config.js)
+All text content lives in two files — never hardcoded in components:
 
+| File | Language |
+|------|----------|
+| `src/i18n/en.js` | English |
+| `src/i18n/ja.js` | Japanese |
+
+### To update text content
+
+**Example — update your email in both languages:**
+
+`src/i18n/en.js`
 ```js
-colors: {
-  ink: '#0D0D0D',       // main text / dark
-  paper: '#F5F0E8',     // background
-  cream: '#EDE8DC',     // section bg
-  accent: '#E8572A',    // orange highlight ← change this!
-  muted: '#8C8884',     // secondary text
+contact: {
+  links: [
+    ['Email', 'your@email.com', 'mailto:your@email.com'],
+  ]
 }
 ```
 
-### Fonts
+`src/i18n/ja.js`
+```js
+contact: {
+  links: [
+    ['メール', 'your@email.com', 'mailto:your@email.com'],
+  ]
+}
+```
 
-The portfolio uses **Syne** (display) + **DM Sans** (body) + **JetBrains Mono** (code).
-Change them in `index.html` (Google Fonts link) and `tailwind.config.js`.
-
----
-
-## ❓ Troubleshooting
-
-| Issue                     | Fix                                                              |
-| ------------------------- | ---------------------------------------------------------------- |
-| Blank page after deploy   | Check `base` in `vite.config.js` matches your repo name exactly  |
-| `npm run deploy` fails    | Make sure you've run `git push` to GitHub first                  |
-| Custom cursor not showing | Expected on touch devices — cursor hides on mobile automatically |
-| Fonts not loading         | Disable ad blockers or check your internet connection            |
-| Build errors              | Run `npm install` again, then `npm run build`                    |
+Then save, commit and run `npm run deploy`.
 
 ---
 
-## 📄 Adding a Real Resume PDF
+## 📄 Updating Your CV / Resume
 
-Place your `resume.pdf` in the `/public` folder:
-
+1. Replace the PDF inside the `public/` folder:
 ```
 public/
-  favicon.svg
-  resume.pdf    ← add here
+  履歴書_shima.pdf   ← replace this file with your new version
 ```
 
-The "Download CV" button in the About section already points to `/resume.pdf`.
+2. Run:
+```bash
+npm run deploy
+```
+
+3. Accessible at:
+```
+https://shima-taklima.github.io/履歴書_shima.pdf
+```
 
 ---
 
-_Built with React + Vite + Tailwind CSS. Deployed on GitHub Pages._
+## 🔧 Adding a New Project
+
+Open `src/i18n/en.js` and `src/i18n/ja.js`, find the `projects.items` array and add a new entry:
+
+**`src/i18n/en.js`**
+```js
+{
+  num:    '05',
+  cat:    'React',
+  year:   '2025',
+  title:  'Your Project Name',
+  desc:   'Short description of what you built and what you learned.',
+  tags:   ['React', 'TypeScript', 'Vite'],
+  live:   'https://your-live-url.com',
+  github: 'https://github.com/shima-taklima/project-repo',
+},
+```
+
+**`src/i18n/ja.js`**
+```js
+{
+  num:    '05',
+  cat:    'React',
+  year:   '2025年',
+  title:  'プロジェクト名',
+  desc:   '制作内容と学んだことの簡単な説明。',
+  tags:   ['React', 'TypeScript', 'Vite'],
+  live:   'https://your-live-url.com',
+  github: 'https://github.com/shima-taklima/project-repo',
+},
+```
+
+Then deploy:
+```bash
+git add .
+git commit -m "add new project: project name"
+git push origin source
+npm run deploy
+```
+
+---
+
+## 📬 Contact Form (Formspree)
+
+Form submissions are handled by **Formspree** — no backend needed.
+
+- **Form ID:** `xjgznklw`
+- **Dashboard:** https://formspree.io/forms/xjgznklw
+- **Free tier:** 50 submissions/month
+
+To change the notification email:
+1. Log in to https://formspree.io
+2. Open your form → **Settings** → **Notifications**
+3. Update the email address
+
+---
+
+## ⚙️ Key Configuration Files
+
+| File | What it controls |
+|------|-----------------|
+| `vite.config.js` | Build settings — `base: '/'` must stay as `/` for user site |
+| `tailwind.config.js` | Design tokens — colors, fonts, animations |
+| `src/index.css` | Global styles, Tailwind directives |
+| `src/i18n/en.js` | All English text content |
+| `src/i18n/ja.js` | All Japanese text content |
+| `package.json` | Scripts including `npm run deploy` |
+
+---
+
+## 🚨 Troubleshooting
+
+### Blank page after deploying
+```bash
+# 1. Hard refresh — bypass browser cache
+Cmd + Shift + R     (Mac)
+Ctrl + Shift + R    (Windows)
+
+# 2. Test in private / incognito window first
+# If it works in private → it was just browser cache
+
+# 3. Force clean redeploy
+git checkout source
+rm -rf dist
+npm run deploy
+```
+
+### "Published" shows in terminal but site not updated
+- GitHub Pages takes **1–2 minutes** to propagate
+- Check the **Actions** tab on GitHub — wait for green ✅
+- Check **Settings → Pages** shows Branch: `main`, Folder: `/ (root)`
+
+### Accidentally committed to main branch
+```bash
+git checkout source   # switch back immediately and work from here
+```
+
+### npm run deploy fails
+```bash
+# Reinstall dependencies and retry
+npm install
+npm run deploy
+```
+
+---
+
+## 📊 Project Structure
+
+```
+portfolio/                    ← source branch
+├── public/
+│   ├── favicon.svg
+│   └── 履歴書_shima.pdf      ← CV / resume file
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── Hero.jsx
+│   │   ├── Marquee.jsx
+│   │   ├── About.jsx
+│   │   ├── Skills.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Experience.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Footer.jsx
+│   │   └── Cursor.jsx
+│   ├── i18n/
+│   │   ├── en.js             ← English content
+│   │   ├── ja.js             ← Japanese content
+│   │   └── LangContext.jsx   ← language switching logic
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── index.html
+├── vite.config.js            ← base: '/' — do not change
+├── tailwind.config.js
+├── package.json
+└── DEPLOYMENT_GUIDE.md       ← this file
+```
+
+---
+
+*Last updated: June 2025*
