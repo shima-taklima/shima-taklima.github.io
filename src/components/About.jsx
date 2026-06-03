@@ -51,14 +51,16 @@ export default function About() {
               ))}
             </div>
 
-            {/* JLPT badge */}
-            <div className="flex items-center gap-2 mb-6">
-              <span className="inline-flex items-center gap-1.5 border border-accent/40 text-accent font-mono text-[0.68rem] px-3 py-1.5 tracking-wide">
-                🇯🇵 JLPT N2 認定
-              </span>
-              <span className="inline-flex items-center gap-1.5 border border-ink/15 text-muted font-mono text-[0.68rem] px-3 py-1.5 tracking-wide">
-                🌏 English OK
-              </span>
+            {/* Language badges */}
+            <div className="flex flex-wrap items-center gap-2 mb-6">
+              {a.langBadges.map((badge) => (
+                <span
+                  key={badge.text}
+                  className="inline-flex items-center gap-1.5 border border-accent/40 text-accent font-mono text-[0.68rem] px-3 py-1.5 tracking-wide"
+                >
+                  {badge.icon} {badge.text}
+                </span>
+              ))}
             </div>
 
             <div className="flex flex-wrap items-center gap-4">
@@ -71,13 +73,19 @@ export default function About() {
                 {a.cv}
               </a>
               <div className="flex gap-4">
-                {[a.github, a.linkedin, a.twitter].map((s) => (
+                {a.socials.map((s) => (
                   <a
-                    key={s}
-                    href="#"
+                    key={s.name}
+                    href={s.url}
+                    target={s.url.startsWith('http') ? '_blank' : undefined}
+                    rel={
+                      s.url.startsWith('http')
+                        ? 'noopener noreferrer'
+                        : undefined
+                    }
                     className="font-mono text-[0.7rem] text-muted hover:text-accent transition-colors hover-line"
                   >
-                    {s}
+                    {s.name}
                   </a>
                 ))}
               </div>
