@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist -b main"
+    "deploy": "npm run build && cd dist && git init && git add . && git commit -m 'deploy' && git push -f https://github.com/shima-taklima/shima-taklima.github.io.git main && cd .."
   },
   "dependencies": {
     "react": "^18.3.1",
