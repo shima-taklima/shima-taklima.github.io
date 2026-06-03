@@ -1,6 +1,7 @@
 # 🚀 Frontend Portfolio — Setup & Deployment Guide
 
 ## Project Stack
+
 - **React 18** — UI framework
 - **Vite** — Build tool (fast HMR, optimized production builds)
 - **Tailwind CSS v3** — Utility-first styling
@@ -44,6 +45,7 @@ npm run dev
 Open your browser at **http://localhost:5173**
 
 You'll see the full portfolio with:
+
 - Animated hero with typewriter effect
 - Scrolling skills bars
 - Interactive project list
@@ -57,36 +59,38 @@ You'll see the full portfolio with:
 
 Edit these files to make the portfolio yours:
 
-| File | What to change |
-|------|---------------|
-| `src/components/Hero.jsx` | Your name, description, CTA buttons |
-| `src/components/About.jsx` | Bio, stats, social links |
-| `src/components/Skills.jsx` | Your skill names and percentages |
-| `src/components/Projects.jsx` | Project titles, descriptions, links |
-| `src/components/Experience.jsx` | Companies, roles, dates |
-| `src/components/Contact.jsx` | Email, LinkedIn, GitHub links |
-| `src/components/Footer.jsx` | Your name, socials |
-| `index.html` | Page `<title>` and meta description |
-| `vite.config.js` | `base: '/your-repo-name/'` |
+| File                            | What to change                      |
+| ------------------------------- | ----------------------------------- |
+| `src/components/Hero.jsx`       | Your name, description, CTA buttons |
+| `src/components/About.jsx`      | Bio, stats, social links            |
+| `src/components/Skills.jsx`     | Your skill names and percentages    |
+| `src/components/Projects.jsx`   | Project titles, descriptions, links |
+| `src/components/Experience.jsx` | Companies, roles, dates             |
+| `src/components/Contact.jsx`    | Email, LinkedIn, GitHub links       |
+| `src/components/Footer.jsx`     | Your name, socials                  |
+| `index.html`                    | Page `<title>` and meta description |
+| `vite.config.js`                | `base: '/your-repo-name/'`          |
 
 ### 📧 Setting up the Contact Form
 
 The contact form currently simulates submission. To make it work for real, choose one:
 
 **Option A — Formspree (easiest, free):**
+
 ```jsx
 // In Contact.jsx, replace the handleSubmit function:
 const handleSubmit = async (e) => {
-  e.preventDefault()
-  setStatus('sending')
+  e.preventDefault();
+  setStatus('sending');
   const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(form),
-  })
-  setStatus(res.ok ? 'sent' : 'error')
-}
+  });
+  setStatus(res.ok ? 'sent' : 'error');
+};
 ```
+
 Sign up at https://formspree.io, create a form, and paste your form ID.
 
 **Option B — EmailJS (no backend):**
@@ -121,8 +125,8 @@ Open `vite.config.js` and set `base` to your exact repository name:
 // vite.config.js
 export default defineConfig({
   plugins: [react()],
-  base: '/portfolio/',   // ← change 'portfolio' to YOUR repo name
-})
+  base: '/portfolio/', // ← change 'portfolio' to YOUR repo name
+});
 ```
 
 > ⚠️ This is critical. If your repo is named `my-portfolio`, set `base: '/my-portfolio/'`.
@@ -138,6 +142,7 @@ npm run deploy
 ```
 
 This will:
+
 1. Run `npm run build` (creates optimized files in `/dist`)
 2. Push the `/dist` folder to a `gh-pages` branch on GitHub
 
@@ -211,6 +216,7 @@ portfolio/
 ## 🎨 Customizing the Design
 
 ### Colors (tailwind.config.js)
+
 ```js
 colors: {
   ink: '#0D0D0D',       // main text / dark
@@ -222,6 +228,7 @@ colors: {
 ```
 
 ### Fonts
+
 The portfolio uses **Syne** (display) + **DM Sans** (body) + **JetBrains Mono** (code).
 Change them in `index.html` (Google Fonts link) and `tailwind.config.js`.
 
@@ -229,13 +236,13 @@ Change them in `index.html` (Google Fonts link) and `tailwind.config.js`.
 
 ## ❓ Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| Blank page after deploy | Check `base` in `vite.config.js` matches your repo name exactly |
-| `npm run deploy` fails | Make sure you've run `git push` to GitHub first |
+| Issue                     | Fix                                                              |
+| ------------------------- | ---------------------------------------------------------------- |
+| Blank page after deploy   | Check `base` in `vite.config.js` matches your repo name exactly  |
+| `npm run deploy` fails    | Make sure you've run `git push` to GitHub first                  |
 | Custom cursor not showing | Expected on touch devices — cursor hides on mobile automatically |
-| Fonts not loading | Disable ad blockers or check your internet connection |
-| Build errors | Run `npm install` again, then `npm run build` |
+| Fonts not loading         | Disable ad blockers or check your internet connection            |
+| Build errors              | Run `npm install` again, then `npm run build`                    |
 
 ---
 
@@ -253,4 +260,4 @@ The "Download CV" button in the About section already points to `/resume.pdf`.
 
 ---
 
-*Built with React + Vite + Tailwind CSS. Deployed on GitHub Pages.*
+_Built with React + Vite + Tailwind CSS. Deployed on GitHub Pages._
