@@ -30,9 +30,16 @@
     font-weight: 500;
     color: #0c0c0c;
   }
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #f7f3ed; }
-  ::-webkit-scrollbar-thumb { background: #d94f2a; border-radius: 2px; }
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f7f3ed;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d94f2a;
+    border-radius: 2px;
+  }
 }
 
 @layer components {
@@ -60,7 +67,9 @@
   .reveal {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
+    transition:
+      opacity 0.65s ease,
+      transform 0.65s ease;
   }
   .reveal.visible {
     opacity: 1;
@@ -89,7 +98,21 @@
 }
 
 @layer utilities {
-  .delay-100 { transition-delay: 100ms; }
-  .delay-200 { transition-delay: 200ms; }
-  .delay-300 { transition-delay: 300ms; }
+  .delay-100 {
+    transition-delay: 100ms;
+  }
+  .delay-200 {
+    transition-delay: 200ms;
+  }
+  .delay-300 {
+    transition-delay: 300ms;
+  }
+}
+
+/* Hide native cursor on mouse devices only — touch screens keep theirs */
+@media (pointer: fine) {
+  html,
+  html * {
+    cursor: none !important;
+  }
 }

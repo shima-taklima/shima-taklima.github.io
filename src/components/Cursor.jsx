@@ -1,80 +1,119 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
+
+const isTouchDevice = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(pointer: coarse)').matches;
 
 export default function Cursor() {
-  const dotRef = useRef(null)
-  const ringRef = useRef(null)
-  const [isHovering, setIsHovering] = useState(false)
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  const [hovering, setHovering] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    let ringX = 0, ringY = 0
-    let dotX = 0, dotY = 0
-    let animId
+    if (isTouchDevice()) return;
 
-    const moveDot = (e) => {
-      dotX = e.clientX
-      dotY = e.clientY
-    }
+    let ringX = 0,
+      ringY = 0,
+      dotX = 0,
+      dotY = 0;
+    let rafId;
 
-    const animate = () => {
-      ringX += (dotX - ringX) * 0.12
-      ringY += (dotY - ringY) * 0.12
+    const onMove = (e) => {
+      dotX = e.clientX;
+      dotY = e.clientY;
+      if (!visible) setVisible(true);
+    };
+
+    const onLeave = () => setVisible(false);
+    const onEnter = () => setVisible(true);
+
+    const loop = () => {
+      ringX += (dotX - ringX) * 0.13;
+      ringY += (dotY - ringY) * 0.13;
 
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${dotX}px, ${dotY}px)`
+        dotRef.current.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
       }
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ringX - 16}px, ${ringY - 16}px)`
+        ringRef.current.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
       }
-      animId = requestAnimationFrame(animate)
-    }
+      rafId = requestAnimationFrame(loop);
+    };
 
-    const handleHoverIn = () => setIsHovering(true)
-    const handleHoverOut = () => setIsHovering(false)
+    // Event delegation — catches all elements including ones added after re-renders
+    const onMouseOver = (e) => {
+      if (e.target.closest('a, button, [data-cursor]')) setHovering(true);
+    };
+    const onMouseOut = (e) => {
+      if (e.target.closest('a, button, [data-cursor]')) setHovering(false);
+    };
 
-    window.addEventListener('mousemove', moveDot)
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mouseleave', onLeave);
+    window.addEventListener('mouseenter', onEnter);
+    document.addEventListener('mouseover', onMouseOver);
+    document.addEventListener('mouseout', onMouseOut);
 
-    const interactables = document.querySelectorAll('a, button, [data-cursor]')
-    interactables.forEach((el) => {
-      el.addEventListener('mouseenter', handleHoverIn)
-      el.addEventListener('mouseleave', handleHoverOut)
-    })
-
-    animId = requestAnimationFrame(animate)
+    rafId = requestAnimationFrame(loop);
 
     return () => {
-      window.removeEventListener('mousemove', moveDot)
-      cancelAnimationFrame(animId)
-    }
-  }, [])
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseleave', onLeave);
+      window.removeEventListener('mouseenter', onEnter);
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout', onMouseOut);
+      cancelAnimationFrame(rafId);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (isTouchDevice()) return null;
 
   return (
     <>
-      {/* Dot */}
+      {/* Accent dot — snaps instantly to cursor position */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2"
-        style={{ willChange: 'transform' }}
+        className="fixed top-0 left-0 pointer-events-none z-[9999]"
+        style={{
+          willChange: 'transform',
+          opacity: visible ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+        }}
       >
         <div
-          className={`rounded-full bg-accent transition-all duration-200 ${
-            isHovering ? 'w-3 h-3' : 'w-2 h-2'
-          }`}
+          style={{
+            width: hovering ? '10px' : '8px',
+            height: hovering ? '10px' : '8px',
+            borderRadius: '50%',
+            backgroundColor: '#d94f2a',
+            transition: 'width 0.2s ease, height 0.2s ease',
+          }}
         />
       </div>
-      {/* Ring */}
+
+      {/* Lagging ring */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 z-[9998] pointer-events-none"
-        style={{ willChange: 'transform' }}
+        className="fixed top-0 left-0 pointer-events-none z-[9998]"
+        style={{
+          willChange: 'transform',
+          opacity: visible ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+        }}
       >
         <div
-          className={`rounded-full border border-ink transition-all duration-300 ${
-            isHovering
-              ? 'w-12 h-12 border-accent opacity-60'
-              : 'w-8 h-8 opacity-30'
-          }`}
+          style={{
+            width: hovering ? '44px' : '32px',
+            height: hovering ? '44px' : '32px',
+            borderRadius: '50%',
+            border: hovering ? '1.5px solid #d94f2a' : '1.5px solid #0c0c0c',
+            opacity: hovering ? 0.55 : 0.25,
+            transition:
+              'width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease',
+          }}
         />
       </div>
     </>
-  )
+  );
 }
