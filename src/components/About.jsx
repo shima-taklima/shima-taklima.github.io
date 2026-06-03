@@ -1,4 +1,4 @@
-import { useLang } from "../i18n/LangContext";
+import { useLang } from '../i18n/LangContext';
 
 export default function About() {
   const { t } = useLang();
@@ -30,7 +30,7 @@ export default function About() {
           <div className="reveal delay-200">
             <h2
               className="font-display font-extrabold leading-[0.95] tracking-tight text-ink mb-5"
-              style={{ fontSize: "clamp(1.7rem,3.5vw,2.8rem)" }}
+              style={{ fontSize: 'clamp(1.7rem,3.5vw,2.8rem)' }}
             >
               {a.heading1}
               <br />
@@ -63,7 +63,7 @@ export default function About() {
 
             <div className="flex flex-wrap items-center gap-4">
               <a
-                href="/shima-taklima.github.io/履歴書_shima.pdf"
+                href="履歴書_shima.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"
