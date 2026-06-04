@@ -73,8 +73,11 @@ const ja = {
     cv: '履歴書をDL ↓',
     socials: [
       { name: 'GitHub', url: 'https://github.com/shima-taklima' },
-      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/taklima-kabir-shima-33bb33276/' },
-      { name: 'Twitter', url: '#' },
+      {
+        name: 'LinkedIn',
+        url: 'https://www.linkedin.com/in/taklima-kabir-shima-33bb33276/',
+      },
+      { name: 'Twitter', url: 'https://x.com/shimataklima' },
     ],
   },
 
@@ -323,8 +326,11 @@ const ja = {
     copy: '· Built with React + Tailwind CSS · Deployed on GitHub Pages',
     socials: [
       { name: 'GitHub', url: 'https://github.com/shima-taklima' },
-      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/taklima-kabir-shima-33bb33276/' },
-      { name: 'Twitter', url: '' }, // TODO
+      {
+        name: 'LinkedIn',
+        url: 'https://www.linkedin.com/in/taklima-kabir-shima-33bb33276/',
+      },
+      { name: 'Twitter', url: 'https://x.com/shimataklima' },
     ],
   },
 };
