@@ -22,7 +22,7 @@ const en = {
     stat1l: 'Designer Exp.',
     stat2n: 'BSc',
     stat2l: 'CSE Degree',
-    stat3n: '3',
+    stat3n: '4',
     stat3l: 'Languages',
   },
 
@@ -62,12 +62,13 @@ const en = {
       ['Status', 'Actively seeking IT role in Japan'],
       ['Location', 'Kawasaki, Kanagawa'],
       ['Focus', 'Frontend / Web Development'],
-      ['Languages', 'Bengali · English · Japanese'],
+      ['Languages', 'Bengali · English · Japanese · Hindi'],
     ],
     langBadges: [
       { icon: '🇧🇩', text: 'Bengali · Native' },
       { icon: '🇬🇧', text: 'English · Fluent' },
-      { icon: '🇯🇵', text: 'Japanese · Professional' },
+      { icon: '🇯🇵', text: 'Japanese · Professional Working Proficiency' },
+      { icon: '🇮🇳', text: 'Hindi · Working Proficiency' },
     ],
     cv: 'Download CV ↓',
     socials: [
@@ -200,7 +201,7 @@ const en = {
     eyebrow: 'Background',
     heading1: 'Education &',
     heading2: 'Experience',
-    note: 'B.Sc. CSE graduate with 1 year of junior designer experience (HTML/CSS/JS) in Bangladesh, professional-level Japanese, and ongoing frontend development in Japan.',
+    note: 'B.Sc. CSE graduate with 1 year of junior designer experience (HTML/CSS/JS) in Bangladesh, professional working proficiency in Japanese, and ongoing frontend development in Japan.',
     ongoing: 'ONGOING',
     nextLabel: "What's Next",
     nexts: [
@@ -278,7 +279,7 @@ const en = {
     intro:
       "I'm <strong>actively seeking an IT role in Japan</strong> — frontend development, web engineering, or related positions. If you think I'd be a good fit, I'd love to hear from you!",
     quote:
-      '"B.Sc. CSE graduate with 1 year of junior designer experience, trilingual (Bengali, English, Japanese), and strong motivation to grow as an IT professional in Japan."',
+      '"B.Sc. CSE graduate with 1 year of junior designer experience, multilingual (Bengali, English, Japanese, Hindi), and strong motivation to grow as an IT professional in Japan."',
     links: [
       [
         'Email',
