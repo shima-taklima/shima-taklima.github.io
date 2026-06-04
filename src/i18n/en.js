@@ -73,7 +73,7 @@ const en = {
     cv: 'Download CV ↓',
     socials: [
       { name: 'GitHub', url: 'https://github.com/shima-taklima' },
-      { name: 'LinkedIn', url: '#' },
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/taklima-kabir-shima-33bb33276/' },
       { name: 'Twitter', url: '#' },
     ],
   },
@@ -292,7 +292,11 @@ const en = {
         'github.com/shima-taklima',
         'https://github.com/shima-taklima',
       ],
-      ['LinkedIn', 'linkedin.com/in/yourprofile', '#'],
+      [
+        'LinkedIn',
+        'linkedin.com/in/taklima-kabir-shima-33bb33276',
+        'https://www.linkedin.com/in/taklima-kabir-shima-33bb33276/',
+      ],
     ],
     labelName: 'Your Name',
     labelEmail: 'Email Address',
@@ -319,7 +323,7 @@ const en = {
     copy: '· Built with React + Tailwind CSS · Deployed on GitHub Pages',
     socials: [
       { name: 'GitHub', url: 'https://github.com/shima-taklima' },
-      { name: 'LinkedIn', url: '#' }, // TODO
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/taklima-kabir-shima-33bb33276/' },
       { name: 'Twitter', url: '' }, // TODO
     ],
   },
